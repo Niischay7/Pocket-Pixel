@@ -1,8 +1,15 @@
+<div align="center">
+<img src="https://github.com/user-attachments/assets/635d3087-2efe-41a4-b063-ad29f683069b" alt="Logo" width="256" />
+
 # Pocket-Pixel
 
-**Bored in college lectures?** *CO nahi ho raha?* Don't worry—Pocket-Pixel is here to keep you entertained! Relive the joy of retro gaming anytime, anywhere.
+### **Bored in college lectures?** *CO nahi ho raha?* Don't worry—Pocket-Pixel is here to keep you entertained! Relive the joy of retro gaming anytime, anywhere.
 
 Pocket-Pixel is a Game Boy emulator designed to deliver a seamless gaming experience across Android and Web platforms. Save your progress, compete for high scores, and discover new games through smart recommendations. Dive into the nostalgia of Game Boy games with a modern twist!
+
+![tribute](https://github.com/user-attachments/assets/d9cd301d-9125-4be8-8d02-6a16ac2af9e8)
+
+</div>
 
 ---
 
