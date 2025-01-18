@@ -24,15 +24,8 @@ class MainActivity : ComponentActivity()
     super.onCreate(savedInstanceState)
     setContent ()
     {
-        Column (modifier =  Modifier.fillMaxSize())
-        {
-            Text("Hello C++, this is Kotlin");
-            Text(getCppGreeting());
-            App();
-        }
+      App()
     }
   }
 }
-
-external fun getCppGreeting() : String;
 

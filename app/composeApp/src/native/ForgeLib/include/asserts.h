@@ -2,7 +2,7 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-#include "defines.h"
+#include "../../defines.h"
 
 // - - - Assertion enable toggle
 #ifndef FORGE_ASSERTS_ENABLED

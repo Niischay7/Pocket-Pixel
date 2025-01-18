@@ -4,9 +4,13 @@
 #include <string.h>
 #include <stdbool.h>
 #include <stdlib.h>
+#include <stdint.h>
+#ifdef __ANDROID__
+  #include <jni.h>
+#endif
 #ifdef __cplusplus
-#include <string>
-extern "C" {
+  #include <string>
+  extern "C" {
 #endif
 
 
@@ -14,20 +18,20 @@ extern "C" {
 // - - - Data Types - - -
 
 // - - - Unsigned int types.
-typedef unsigned char      u8;
-typedef unsigned short     u16;
-typedef unsigned int       u32;
-typedef unsigned long long u64;
+typedef uint8_t     u8;
+typedef uint16_t    u16;
+typedef uint32_t    u32;
+typedef uint64_t    u64;
 
 // - - - Signed int types.
-typedef signed char        i8;
-typedef signed short       i16;
-typedef signed int         i32;
-typedef signed long long   i64;
+typedef int8_t      i8;
+typedef int16_t     i16;
+typedef int32_t     i32;
+typedef int64_t     i64;
 
 // - - - Floating point types
-typedef float              f32;
-typedef double             f64;
+typedef float       f32;
+typedef double      f64;
 
 
 // - - - Asserts - - -
@@ -41,7 +45,7 @@ typedef double             f64;
 
 // - - - Ensure all types are of the correct size.
 #if defined(__clang__)
-STATIC_ASSERT(sizeof(u8)  == 1, "Expected u8 to be 1 byte.");
+  STATIC_ASSERT(sizeof(u8)  == 1, "Expected u8 to be 1 byte.");
   STATIC_ASSERT(sizeof(u16) == 2, "Expected u16 to be 2 bytes.");
   STATIC_ASSERT(sizeof(u32) == 4, "Expected u32 to be 4 bytes.");
   STATIC_ASSERT(sizeof(u64) == 8, "Expected u64 to be 8 bytes.");

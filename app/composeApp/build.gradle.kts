@@ -31,6 +31,11 @@ kotlin {
 
     @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
+        exec ()
+        {
+            commandLine("ls")
+            //commandLine("./build-wasm.sh")
+        }
         moduleName = "composeApp"
         browser {
             val rootDirPath = project.rootDir.path
@@ -40,6 +45,7 @@ kotlin {
                 devServer = (devServer ?: KotlinWebpackConfig.DevServer()).apply {
                     static = (static ?: mutableListOf()).apply {
                         // Serve sources to debug inside browser
+                        add("src/wasmMain/resources/")
                         add(rootDirPath)
                         add(projectDirPath)
                     }

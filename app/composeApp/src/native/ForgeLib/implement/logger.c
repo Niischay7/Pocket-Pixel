@@ -25,7 +25,7 @@ void writeConsole(const char* MESSAGE, unsigned char COLOR)
         default : androidLogLevel = ANDROID_LOG_DEFAULT;  break;
     }
     __android_log_print(androidLogLevel, logTag, "%s", MESSAGE);
-#elif
+#else
   printf("\033[%sm%s\033[0m", colorStrings[COLOR], MESSAGE); // - - -This looks scary
   /*Here is how it works:
   \033[     - This is the escape character

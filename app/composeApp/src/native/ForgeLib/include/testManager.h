@@ -2,7 +2,7 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-#include "defines.h"
+#include "../../defines.h"
 #define SKIP_TEST 2
 
 // - - - Test Function

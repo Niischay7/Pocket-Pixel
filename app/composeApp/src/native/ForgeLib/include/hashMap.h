@@ -2,7 +2,7 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-#include "defines.h"
+#include "../../defines.h"
 
 typedef         char*                   byteArray;
 typedef         unsigned long long      (hashFunction)      (const byteArray KEY, unsigned long long SIZE);
