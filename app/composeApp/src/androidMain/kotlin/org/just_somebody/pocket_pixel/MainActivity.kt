@@ -16,7 +16,7 @@ class MainActivity : ComponentActivity()
     {
         init
         {
-            System.loadLibrary("pocket_pixel")
+            System.loadLibrary("pocketPixel")
         }
     }
   override fun onCreate(savedInstanceState: Bundle?)
