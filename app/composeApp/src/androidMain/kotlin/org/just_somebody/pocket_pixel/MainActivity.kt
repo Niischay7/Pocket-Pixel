@@ -26,9 +26,7 @@ class MainActivity : ComponentActivity()
     {
         Column (modifier =  Modifier.fillMaxSize())
         {
-          callCpp();
             Text("Hello C++, this is Kotlin");
-            Text("Int from C++ ${getCppInt()}")
             Text(getCppGreeting());
             App();
         }
@@ -38,17 +36,3 @@ class MainActivity : ComponentActivity()
 
 external fun getCppGreeting() : String;
 
-external fun callCpp() : Unit
-
-external fun getCppInt() : Int
-
-@Preview
-@Composable
-fun AppAndroidPreview()
-{
-    Column (modifier =  Modifier.fillMaxSize())
-    {
-        Text("Hello C++, this is Kotlin");
-        App();
-    }
-}

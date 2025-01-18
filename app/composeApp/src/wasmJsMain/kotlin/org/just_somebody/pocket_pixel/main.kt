@@ -1,12 +1,19 @@
-package org.just_somebody.pocket_pixel
+@file:Suppress("OPT_IN_USAGE")
 
-import androidx.compose.ui.ExperimentalComposeUiApi
-import androidx.compose.ui.window.ComposeViewport
-import kotlinx.browser.document
+import kotlin.wasm.WasmExport
 
-@OptIn(ExperimentalComposeUiApi::class)
+// Define a JavaScript function using `@JsFun`
+@JsFun("function(msg) { alert(msg); }")
+external fun showAlert(message: String)
+
+@JsName("sum")  // Matches the JavaScript function name
+external fun sum(a: Int, b: Int): Int
+
+@JsName("helloFromCpp")
+external fun helloFromCpp() : String
+
+// Define a main function exported to JavaScript
+@WasmExport
 fun main() {
-    ComposeViewport(document.body!!) {
-        App()
-    }
+    showAlert(helloFromCpp())
 }
