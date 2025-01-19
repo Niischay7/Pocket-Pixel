@@ -10,14 +10,17 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 
 class GameBoyDisplay
 {
@@ -26,6 +29,7 @@ class GameBoyDisplay
 
   private fun renderFrame() : Array<Array<Color>>
   {
+    bridge.getFrame(frameBuffer);
     val width  = 160
     val height = 144
     val colors = Array(height) { Array(width) { Color.Black } }
@@ -57,10 +61,20 @@ class GameBoyDisplay
     }
   }
 
+  private fun frameFlow(): Flow<Array<Array<Color>>> = flow()
+  {
+    while (true) {
+      emit(renderFrame()) // Emit the current frame for rendering
+      delay(16) // ~60 FPS
+    }
+  }
+
   @Composable
   fun render()
   {
-    val frame by remember { mutableStateOf(renderFrame()) }
+    val frameFlow = remember { frameFlow() } // Initialize the frame flow once
+    val frame by frameFlow.collectAsState(initial = renderFrame()) // Collect frames as state
+
 
     Column (
       modifier = Modifier.fillMaxSize(),
@@ -69,7 +83,8 @@ class GameBoyDisplay
     )
     {
       // GameBoy screen
-      Canvas(modifier = Modifier.size(320.dp, 288.dp)) {
+      Canvas(modifier = Modifier.size(320.dp, 288.dp))
+      {
         drawGameFrame(frame, this)
       }
 

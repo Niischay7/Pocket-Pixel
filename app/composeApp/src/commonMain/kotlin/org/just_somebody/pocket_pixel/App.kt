@@ -20,9 +20,6 @@ fun App()
 {
   MaterialTheme () 
   {
-    // - - - decide whether or not to show something
-    var showContent by remember { mutableStateOf(false) }
-
     // - - - the content arrange in a column
     Column(
       Modifier.fillMaxWidth(), 

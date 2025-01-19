@@ -33,8 +33,8 @@ kotlin {
     wasmJs {
         exec ()
         {
-            commandLine("ls")
-            //commandLine("./build-wasm.sh")
+            //commandLine("ls")
+            commandLine("./build-wasm.sh")
         }
         moduleName = "composeApp"
         browser {
