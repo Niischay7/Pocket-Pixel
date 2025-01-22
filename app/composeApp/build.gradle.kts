@@ -8,6 +8,9 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.jetbrains.kotlin.serialization)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.room)
 }
 
 kotlin {
@@ -22,19 +25,23 @@ kotlin {
         iosX64(),
         iosArm64(),
         iosSimulatorArm64()
-    ).forEach { iosTarget ->
+    ).forEach()
+    { iosTarget ->
         iosTarget.binaries.framework {
             baseName = "ComposeApp"
             isStatic = true
         }
     }
 
+    room { schemaDirectory("$projectDir/schemas") }
+
+
     @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
         exec ()
         {
-            //commandLine("ls")
-            commandLine("./build-wasm.sh")
+            commandLine("ls")
+            //commandLine("./build-wasm.sh")
         }
         moduleName = "composeApp"
         browser {
@@ -59,6 +66,9 @@ kotlin {
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
+            implementation(libs.ktor.client.okhttp)
+            implementation(libs.androidx.room.runtime)
+            implementation(libs.sqlite.bundled)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -69,6 +79,11 @@ kotlin {
             implementation(compose.components.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
+            implementation(libs.jetbrains.compose.navigation)
+            implementation(libs.kotlinx.serialization.json)
+        }
+        dependencies {
+            ksp(libs.androidx.room.compiler)
         }
     }
 }
