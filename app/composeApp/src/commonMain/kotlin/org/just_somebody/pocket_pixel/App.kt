@@ -1,45 +1,10 @@
 package org.just_somebody.pocket_pixel
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
-import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import org.jetbrains.compose.resources.painterResource
-import org.jetbrains.compose.ui.tooling.preview.Preview
-import pocketpixel.composeapp.generated.resources.GameBoy
-import pocketpixel.composeapp.generated.resources.Res
-
+import androidx.compose.runtime.Composable
+import org.just_somebody.pocket_pixel.splashScreen.presentation.SplashScreen
 
 @Composable
-@Preview
-fun App() 
+fun App()
 {
-  MaterialTheme () 
-  {
-    // - - - the content arrange in a column
-    Column(
-      Modifier.fillMaxWidth(), 
-      horizontalAlignment = Alignment.CenterHorizontally) 
-    {
-      Image(painterResource(Res.drawable.GameBoy), null);
-      GameScreen();
-    }
-  }
-}
-
-@Composable
-fun GameScreen()
-{
-  val display = remember { GameBoyDisplay() }
-  val platformName = display.bridge.platformName;
-
-  Column()
-  {
-    Text("Running on: $platformName")
-    display.render()
-  }
+  SplashScreen();
 }

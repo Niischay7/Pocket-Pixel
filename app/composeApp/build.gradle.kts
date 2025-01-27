@@ -21,28 +21,11 @@ kotlin {
         }
     }
 
-    listOf(
-        iosX64(),
-        iosArm64(),
-        iosSimulatorArm64()
-    ).forEach()
-    { iosTarget ->
-        iosTarget.binaries.framework {
-            baseName = "ComposeApp"
-            isStatic = true
-        }
-    }
-
     room { schemaDirectory("$projectDir/schemas") }
 
 
     @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
-        exec ()
-        {
-            commandLine("ls")
-            //commandLine("./build-wasm.sh")
-        }
         moduleName = "composeApp"
         browser {
             val rootDirPath = project.rootDir.path
@@ -66,25 +49,35 @@ kotlin {
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
-            implementation(libs.ktor.client.okhttp)
             implementation(libs.androidx.room.runtime)
             implementation(libs.sqlite.bundled)
+            implementation(libs.ktor.client.okhttp)
         }
         commonMain.dependencies {
+            implementation(libs.ktor.client.core)
+            implementation(libs.ktor.client.content.negotiation)
+            implementation(libs.ktor.serialization.kotlinx.json)
             implementation(compose.runtime)
             implementation(compose.foundation)
-            implementation(compose.material)
+            implementation(compose.material3)
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
             implementation(libs.jetbrains.compose.navigation)
-            implementation(libs.kotlinx.serialization.json)
+            implementation(libs.bundles.ktor)
+        }
+        wasmJsMain.dependencies {
+            implementation(libs.ktor.client.js)
+        }
+        nativeMain.dependencies {
+            implementation(libs.ktor.client.darwin)
         }
         dependencies {
             ksp(libs.androidx.room.compiler)
         }
+
     }
 }
 
@@ -114,14 +107,15 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-    externalNativeBuild {
+/*    externalNativeBuild {
         cmake {
             path = file("src/native/CMakeLists.txt")
             version = "3.22.1"
         }
-    }
+    }*/
 }
 
 dependencies {
+    implementation(libs.androidx.material3.android)
     debugImplementation(compose.uiTooling)
 }
