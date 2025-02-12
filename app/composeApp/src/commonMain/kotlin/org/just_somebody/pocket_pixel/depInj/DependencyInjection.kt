@@ -1,13 +1,15 @@
 package org.just_somebody.pocket_pixel.depInj
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.text.font.FontFamily
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import org.just_somebody.pocket_pixel.core.theme.PokeFontFamily
 import org.just_somebody.pocket_pixel.splashScreen.data.SplashScreenNetworkCalls
 
 private val splashNetCalls = SplashScreenNetworkCalls()
-private var navController : NavHostController? = null;
+private var navController : NavHostController?  = null;
 
 fun getSplashNetworkCalls() : SplashScreenNetworkCalls { return splashNetCalls; }
 

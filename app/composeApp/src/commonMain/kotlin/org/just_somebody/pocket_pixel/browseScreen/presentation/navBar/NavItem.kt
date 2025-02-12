@@ -1,0 +1,68 @@
+package org.just_somebody.pocket_pixel.browseScreen.presentation.navBar
+
+import androidx.compose.foundation.background
+import androidx.compose.material3.Badge
+import androidx.compose.material3.BadgedBox
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.unit.sp
+import org.just_somebody.pocket_pixel.core.theme.GameBoyColors
+import org.just_somebody.pocket_pixel.core.theme.PokeFontFamily
+
+data class NavItem(
+  val title           : String,
+  val unselectedIcon  : ImageVector,
+  val selectedIcon    : ImageVector,
+  val badgeCount      : Int?,
+  val hasNews         : Boolean
+)
+
+@Composable
+fun NavIcon(
+  ITEM      : NavItem,
+  SELECTED  : Boolean,
+  MODIFIER  : Modifier = Modifier)
+{
+  BadgedBox(
+    badge     =
+      {
+        if (ITEM.badgeCount != null)
+        {
+          Badge (
+            containerColor  = GameBoyColors.DarkGreen,
+            contentColor    = GameBoyColors.DarkGreen
+          )
+          {
+            Text(
+              text        = "${ITEM.badgeCount}",
+              color       = GameBoyColors.LightGreen,
+              fontSize    = 16.sp,
+              fontFamily  = PokeFontFamily(),
+            )
+          }
+        }
+        else if (ITEM.hasNews)
+        {
+          Badge(
+            containerColor  = GameBoyColors.DarkGreen,
+            contentColor    = GameBoyColors.DarkGreen
+          )
+        }
+      }
+  )
+  {
+    Icon(
+      imageVector         = if (SELECTED) ITEM.selectedIcon
+                            else          ITEM.unselectedIcon,
+      contentDescription  = ITEM.title,
+      tint                = if (SELECTED) GameBoyColors.MediumGreen
+                            else          GameBoyColors.LightGreen
+    )
+  }
+}

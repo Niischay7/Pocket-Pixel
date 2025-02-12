@@ -10,7 +10,7 @@ plugins {
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.jetbrains.kotlin.serialization)
     alias(libs.plugins.ksp)
-    alias(libs.plugins.room)
+    //alias(libs.plugins.room)
 }
 
 kotlin {
@@ -21,7 +21,7 @@ kotlin {
         }
     }
 
-    room { schemaDirectory("$projectDir/schemas") }
+    //room { schemaDirectory("$projectDir/schemas") }
 
 
     @OptIn(ExperimentalWasmDsl::class)
