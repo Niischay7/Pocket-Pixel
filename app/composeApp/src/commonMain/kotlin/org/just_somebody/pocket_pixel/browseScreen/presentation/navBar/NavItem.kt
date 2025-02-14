@@ -20,49 +20,4 @@ data class NavItem(
   val unselectedIcon  : ImageVector,
   val selectedIcon    : ImageVector,
   val badgeCount      : Int?,
-  val hasNews         : Boolean
 )
-
-@Composable
-fun NavIcon(
-  ITEM      : NavItem,
-  SELECTED  : Boolean,
-  MODIFIER  : Modifier = Modifier)
-{
-  BadgedBox(
-    badge     =
-      {
-        if (ITEM.badgeCount != null)
-        {
-          Badge (
-            containerColor  = GameBoyColors.DarkGreen,
-            contentColor    = GameBoyColors.DarkGreen
-          )
-          {
-            Text(
-              text        = "${ITEM.badgeCount}",
-              color       = GameBoyColors.LightGreen,
-              fontSize    = 16.sp,
-              fontFamily  = PokeFontFamily(),
-            )
-          }
-        }
-        else if (ITEM.hasNews)
-        {
-          Badge(
-            containerColor  = GameBoyColors.DarkGreen,
-            contentColor    = GameBoyColors.DarkGreen
-          )
-        }
-      }
-  )
-  {
-    Icon(
-      imageVector         = if (SELECTED) ITEM.selectedIcon
-                            else          ITEM.unselectedIcon,
-      contentDescription  = ITEM.title,
-      tint                = if (SELECTED) GameBoyColors.MediumGreen
-                            else          GameBoyColors.LightGreen
-    )
-  }
-}

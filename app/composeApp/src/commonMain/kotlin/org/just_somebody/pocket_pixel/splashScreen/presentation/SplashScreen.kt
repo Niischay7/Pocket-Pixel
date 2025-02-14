@@ -117,10 +117,7 @@ fun SplashScreen(
     Text(
       modifier    = Modifier
                     .padding(16.dp)
-                    .clickable(onClick =
-                    {
-                      navController.navigate(Screens.Wow("Yay"))
-                    }),
+                    .clickable(onClick = { navController.navigate(Screens.MainScreen); }),
       text        = "Guest",
       color       = GameBoyColors.LightGreen,
       fontSize    = 32.sp,

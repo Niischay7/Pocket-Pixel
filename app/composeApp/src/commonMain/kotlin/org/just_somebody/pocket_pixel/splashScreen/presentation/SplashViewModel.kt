@@ -43,6 +43,7 @@ class SplashViewModel : ViewModel()
       state = state.copy(
         isLoggedIn  = false,
         gamer       = getGamerSessionStorage().getGamer() ?: state.gamer);
+      println(state.gamer)
       login()
     }
   }

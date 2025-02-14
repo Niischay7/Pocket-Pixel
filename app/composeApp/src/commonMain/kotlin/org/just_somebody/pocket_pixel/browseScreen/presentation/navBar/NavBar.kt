@@ -51,9 +51,9 @@ fun NavBar(
     Row(
       modifier              = MODIFIER
                               .fillMaxWidth()
-                              .height(56.dp)
+                              .height(72.dp)
                               .background(GameBoyColors.MediumGreen)
-                              .padding(horizontal = 8.dp),
+                              .padding(bottom = 8.dp),
       horizontalArrangement = Arrangement.SpaceEvenly,
       verticalAlignment     = Alignment.CenterVertically
     ) { NavList(ITEMS, SELECTED_INDEX, ON_NAVIGATE) }
@@ -95,7 +95,7 @@ private fun NavList(
             tint                = GameBoyColors.DarkGreen,
             modifier            = Modifier.size(24.dp)
           )
-          if (item.hasNews)
+          if (item.badgeCount != null)
           {
             Box(
               modifier          = Modifier
@@ -105,16 +105,16 @@ private fun NavList(
                                     x = (8).dp,
                                     y = (-4).dp)
                                   .background(
-                                    color = Color.Red,
+                                    color = GameBoyColors.LightGreen,
                                     shape = RectangleShape),
               contentAlignment  = Alignment.Center
             )
             {
-              if (item.badgeCount != null)
+              if (item.badgeCount > 0)
               {
                 Text(
                   text        = item.badgeCount.toString(),
-                  color       = GameBoyColors.LightGreen,
+                  color       = GameBoyColors.DarkGreen,
                   fontFamily  = PokeFontFamily(),
                   fontSize    = 16.sp,
                 )
