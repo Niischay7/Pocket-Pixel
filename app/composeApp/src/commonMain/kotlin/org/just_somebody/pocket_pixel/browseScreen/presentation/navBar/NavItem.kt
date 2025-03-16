@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.sp
 import org.just_somebody.pocket_pixel.core.theme.GameBoyColors
@@ -17,7 +18,7 @@ import org.just_somebody.pocket_pixel.core.theme.PokeFontFamily
 
 data class NavItem(
   val title           : String,
-  val unselectedIcon  : ImageVector,
-  val selectedIcon    : ImageVector,
+  val unselectedIcon  : Any,
+  val selectedIcon    : Any,
   val badgeCount      : Int?,
 )

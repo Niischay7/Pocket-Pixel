@@ -4,14 +4,16 @@ import NavBar
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import org.just_somebody.pocket_pixel.browseScreen.data.ScreensToInt
+import org.just_somebody.pocket_pixel.browseScreen.data.intToScreen
 import org.just_somebody.pocket_pixel.core.Screens
 import org.just_somebody.pocket_pixel.core.isLandscape
 import org.just_somebody.pocket_pixel.core.theme.GameBoyColors
@@ -20,16 +22,16 @@ import org.just_somebody.pocket_pixel.depInj.getNavController
 import org.just_somebody.pocket_pixel.splashScreen.presentation.SplashScreen
 
 
-fun navigate(SCREEN : Int, NAV_CONTROLLER : NavController)
+fun navigate(SCREEN : ScreensToInt, NAV_CONTROLLER : NavController)
 {
   println("Navigating");
   when (SCREEN)
   {
-    1 -> NAV_CONTROLLER.navigate(Screens.MePage);
-    2 -> NAV_CONTROLLER.navigate(Screens.SearchPage);
-    3 -> NAV_CONTROLLER.navigate(Screens.FavoritesPage);
-    4 -> NAV_CONTROLLER.navigate(Screens.DownloadsPage);
-    5 -> NAV_CONTROLLER.navigate(Screens.ExplorePage);
+    ScreensToInt.Search     -> NAV_CONTROLLER.navigate(Screens.SearchPage);
+    ScreensToInt.Explore    -> NAV_CONTROLLER.navigate(Screens.ExplorePage);
+    ScreensToInt.Favorites  -> NAV_CONTROLLER.navigate(Screens.FavoritesPage);
+    ScreensToInt.Me         -> NAV_CONTROLLER.navigate(Screens.MePage);
+    ScreensToInt.Downloads  -> NAV_CONTROLLER.navigate(Screens.DownloadsPage);
   }
 }
 
@@ -38,7 +40,7 @@ fun navigate(SCREEN : Int, NAV_CONTROLLER : NavController)
 fun MainScreen(
   MODIFIER  : Modifier = Modifier)
 {
-  var selectedIndex by remember { mutableStateOf(0) }
+  var selectedIndex by remember { mutableStateOf(2) }
   val navController = rememberNavController()
 
   Scaffold(
@@ -49,8 +51,8 @@ fun MainScreen(
         NavBar(
           ITEMS           = getMenuItems(),
           SELECTED_INDEX  = selectedIndex,
-          ON_NAVIGATE     = { selectedIndex = it; navigate(it, navController) },
-          MODIFIER        = Modifier.fillMaxWidth()
+          ON_NAVIGATE     = { selectedIndex = it; navigate(intToScreen(it), navController) },
+          MODIFIER        = Modifier.fillMaxWidth().padding(bottom = 4.dp)
         )
       }
     },
@@ -68,7 +70,7 @@ fun MainScreen(
           NavBar(
             ITEMS           = getMenuItems(),
             SELECTED_INDEX  = selectedIndex,
-            ON_NAVIGATE     = { selectedIndex = it; navigate(it, navController) },
+            ON_NAVIGATE     = { selectedIndex = it; navigate(intToScreen(it), navController) },
             MODIFIER        = Modifier.fillMaxHeight()
           )
         }
@@ -83,11 +85,11 @@ fun MainScreen(
             startDestination  = Screens.ExplorePage
           )
           {
-            composable<Screens.MePage>            {     temp();     }
-            composable<Screens.ExplorePage>       {     SplashScreen()     }
-            composable<Screens.FavoritesPage>     {     temp();     }
-            composable<Screens.SearchPage>        {     temp();     }
-            composable<Screens.DownloadsPage>     {     temp();     }
+            composable<Screens.MePage>            {         temp();         }
+            composable<Screens.ExplorePage>       {     SplashScreen();     }
+            composable<Screens.FavoritesPage>     {         temp();         }
+            composable<Screens.SearchPage>        {         temp();         }
+            composable<Screens.DownloadsPage>     {         temp();         }
           }
         }
       }

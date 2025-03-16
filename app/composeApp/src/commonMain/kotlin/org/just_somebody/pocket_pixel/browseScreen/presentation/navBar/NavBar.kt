@@ -6,12 +6,15 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -19,8 +22,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import org.jetbrains.compose.resources.DrawableResource
+import org.jetbrains.compose.resources.painterResource
 import org.just_somebody.pocket_pixel.browseScreen.presentation.navBar.NavItem
 import org.just_somebody.pocket_pixel.core.isLandscape
 import org.just_somebody.pocket_pixel.core.theme.GameBoyColors
@@ -39,7 +46,7 @@ fun NavBar(
     Column(
       modifier            = MODIFIER
                             .fillMaxHeight()
-                            .width(72.dp)
+                            .wrapContentWidth()
                             .background(GameBoyColors.MediumGreen)
                             .padding(vertical = 8.dp),
       verticalArrangement = Arrangement.SpaceEvenly,
@@ -51,9 +58,9 @@ fun NavBar(
     Row(
       modifier              = MODIFIER
                               .fillMaxWidth()
-                              .height(72.dp)
+                              .wrapContentHeight()
                               .background(GameBoyColors.MediumGreen)
-                              .padding(bottom = 8.dp),
+                              .padding(horizontal = 8.dp),
       horizontalArrangement = Arrangement.SpaceEvenly,
       verticalAlignment     = Alignment.CenterVertically
     ) { NavList(ITEMS, SELECTED_INDEX, ON_NAVIGATE) }
@@ -88,9 +95,14 @@ private fun NavList(
       {
         Box(modifier = Modifier.size(24.dp))
         {
+          val icon =  if (isSelected) item.selectedIcon
+                      else            item.unselectedIcon;
           Icon(
-            imageVector         = if (isSelected) item.selectedIcon
-                                  else            item.unselectedIcon,
+            painter = when (icon) {
+              is DrawableResource         -> painterResource(icon)
+              is ImageVector              -> rememberVectorPainter(image = icon) // Material Icon
+              else                        -> throw IllegalArgumentException("Invalid icon type")
+            },
             contentDescription  = item.title,
             tint                = GameBoyColors.DarkGreen,
             modifier            = Modifier.size(24.dp)

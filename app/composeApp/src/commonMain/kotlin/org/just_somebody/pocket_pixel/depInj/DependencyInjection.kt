@@ -3,54 +3,58 @@ package org.just_somebody.pocket_pixel.depInj
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.sharp.AccountBox
 import androidx.compose.material.icons.sharp.AccountCircle
+import androidx.compose.material.icons.sharp.Search
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import org.just_somebody.pocket_pixel.browseScreen.presentation.MainScreen
+import org.jetbrains.compose.resources.painterResource
 import org.just_somebody.pocket_pixel.browseScreen.presentation.navBar.NavItem
-import org.just_somebody.pocket_pixel.browseScreen.presentation.temp
-import org.just_somebody.pocket_pixel.core.Screens
 import org.just_somebody.pocket_pixel.core.isLandscape
 import org.just_somebody.pocket_pixel.splashScreen.data.SplashScreenNetworkCalls
-import org.just_somebody.pocket_pixel.splashScreen.presentation.SplashScreen
+import pocketpixel.composeapp.generated.resources.Res
+import pocketpixel.composeapp.generated.resources.download
+import pocketpixel.composeapp.generated.resources.heart
+import pocketpixel.composeapp.generated.resources.moonStars
+import pocketpixel.composeapp.generated.resources.searchIcon
+import pocketpixel.composeapp.generated.resources.user
 
-private val splashNetCalls : SplashScreenNetworkCalls = SplashScreenNetworkCalls();
-private var navController  : NavHostController?       = null;
-private val items          : List<NavItem>            = listOf(
+val items          : List<NavItem>            = listOf(
   NavItem(
-    title           = "Me",
-    unselectedIcon  = Icons.Sharp.AccountBox,
-    selectedIcon    = Icons.Sharp.AccountCircle,
+    title           = "Search",
+    unselectedIcon  = Res.drawable.searchIcon,
+    selectedIcon    = Res.drawable.searchIcon,
     badgeCount      = null,
   ),
   NavItem(
     title           = "Explore",
-    unselectedIcon  = Icons.Sharp.AccountBox,
-    selectedIcon    = Icons.Sharp.AccountCircle,
+    unselectedIcon  = Res.drawable.moonStars,
+    selectedIcon    = Res.drawable.moonStars,
     badgeCount      = 3,
   ),
   NavItem(
     title           = "Favorites",
-    unselectedIcon  = Icons.Sharp.AccountBox,
-    selectedIcon    = Icons.Sharp.AccountCircle,
+    unselectedIcon  = Res.drawable.heart,
+    selectedIcon    = Res.drawable.heart,
     badgeCount      = null,
   ),
   NavItem(
-    title           = "Search",
-    unselectedIcon  = Icons.Sharp.AccountBox,
-    selectedIcon    = Icons.Sharp.AccountCircle,
+    title           = "Me",
+    unselectedIcon  = Res.drawable.user,
+    selectedIcon    = Res.drawable.user,
     badgeCount      = null,
   ),
   NavItem(
     title           = "Downloads",
-    unselectedIcon  = Icons.Sharp.AccountBox,
-    selectedIcon    = Icons.Sharp.AccountCircle,
+    unselectedIcon  = Res.drawable.download,
+    selectedIcon    = Res.drawable.download,
     badgeCount      = null,
   )
 );
+
+
+private val splashNetCalls : SplashScreenNetworkCalls = SplashScreenNetworkCalls();
+private var navController  : NavHostController?       = null;
 
 fun getSplashNetworkCalls() : SplashScreenNetworkCalls
 {
@@ -70,7 +74,7 @@ fun getMenuItems()      : List<NavItem>
   return items.subList(
     fromIndex = 0,
     toIndex   =
-        if (isLandscape())  items.size - 2;
-        else                items.size - 1
+        if (isLandscape())  items.size - 1;
+        else                items.size
   )
 }
