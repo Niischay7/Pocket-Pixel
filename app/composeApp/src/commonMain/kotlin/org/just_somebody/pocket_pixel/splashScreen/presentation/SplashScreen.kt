@@ -15,12 +15,19 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.rememberNavController
+import kotlinx.coroutines.delay
 import org.jetbrains.compose.resources.painterResource
 import org.just_somebody.pocket_pixel.core.Screens
 import org.just_somebody.pocket_pixel.core.isLandscape
@@ -38,92 +45,123 @@ fun SplashScreen(
   VIEW_MODEL   : SplashViewModel  = SplashViewModel()
 )
 {
-  val state   = VIEW_MODEL.state
+  val state             =           VIEW_MODEL.state
+  val navController     =           getNavController()
+  var showLogin         by remember { mutableStateOf(false) }
+  var hasAutoLoginDone  by remember { mutableStateOf(false) }
+  var gamerTag          by remember { mutableStateOf("") }
+  var password          by remember { mutableStateOf("") }
 
-  if (!hasAutoLoginDone)
+  LaunchedEffect(Unit)
   {
-    VIEW_MODEL.onAction(SplashActions.AutoLogin)
-    hasAutoLoginDone = true;
+    delay(3000)
+    showLogin = true
   }
+
+  // - - - Auto-login logic (only once)
+  LaunchedEffect(Unit)
+  {
+    if (!hasAutoLoginDone)
+    {
+      VIEW_MODEL.onAction(SplashActions.AutoLogin)
+      hasAutoLoginDone = true
+    }
+  }
+
   Column(
-    modifier            = MODIFIER
-                          .fillMaxSize()
-                          .background(GameBoyColors.DarkGreen),
-    horizontalAlignment = Alignment.CenterHorizontally,
-    verticalArrangement = Arrangement.Center
+    modifier              = MODIFIER
+      .fillMaxSize()
+      .background(GameBoyColors.DarkGreen),
+    horizontalAlignment   = Alignment.CenterHorizontally,
+    verticalArrangement   = Arrangement.Center
   )
   {
-    // - - - LOGO
+    // - - - Logo
     Image(
       painter             = painterResource(Res.drawable.GameBoy),
       contentDescription  = null,
       modifier            = Modifier.size(256.dp)
     )
 
-    // - - - TITLE
+    // - - - Title
     Text(
-      text        = "Pocket Pixel",
-      color       = GameBoyColors.LightGreen,
-      fontSize    = 72.sp,
-      fontFamily  = PokeFontFamily(),
+      text                = "Pocket Pixel",
+      color               = GameBoyColors.LightGreen,
+      fontSize            = 72.sp,
+      fontFamily          = PokeFontFamily(),
     )
 
     Spacer(modifier = Modifier.size(32.dp))
 
-    if (isLandscape())
+    // - - - Show login/register only after delay
+    if (showLogin)
     {
-      // - - - INPUT BOXES
-      Row ()
+      if (isLandscape())
       {
-        VIEW_MODEL.onAction(SplashActions.ChangeName(TextInp(PLACEHOLDER = "GamerTag")))
-        VIEW_MODEL.onAction(SplashActions.ChangePass(TextInp(PLACEHOLDER = "Password")))
+        Row ()
+        {
+          gamerTag = TextInp(PLACEHOLDER = "GamerTag")
+          password = TextInp(PLACEHOLDER = "Password")
+        }
+        Row()
+        {
+          CustomButton(
+            CONTENT   = { text("Login") },
+            MODIFIER  = Modifier.width(256.dp),
+            ON_CLICK  = { VIEW_MODEL.onAction(SplashActions.Login) }
+          )
+          CustomButton(
+            CONTENT   = { text("Register") },
+            MODIFIER  = Modifier.width(256.dp),
+            ON_CLICK  = { VIEW_MODEL.onAction(SplashActions.Register) }
+          )
+        }
       }
-
-      // - - - BUTTONS
-      Row ()
+      else
       {
-        CustomButton(
-          CONTENT   = {text("Login")},
-          MODIFIER  = Modifier.width(256.dp))
-        CustomButton(
-          CONTENT   = {text("Register")},
-          MODIFIER  = Modifier.width(256.dp))
+        Column ()
+        {
+          gamerTag = TextInp(PLACEHOLDER = "GamerTag")
+          password = TextInp(PLACEHOLDER = "Password")
+        }
+        Column ()
+        {
+          CustomButton(
+            CONTENT   = { text("Login") },
+            MODIFIER  = Modifier.width(256.dp),
+            ON_CLICK  = { VIEW_MODEL.onAction(SplashActions.Login) }
+          )
+          CustomButton(
+            CONTENT   = { text("Register") },
+            MODIFIER  = Modifier.width(256.dp),
+            ON_CLICK  = { VIEW_MODEL.onAction(SplashActions.Register) }
+          )
+        }
       }
+      // - - - Guest button
+      Text(
+        modifier    = Modifier
+          .padding(16.dp)
+          .clickable { navController.navigate(Screens.MainScreen) },
+        text        = "Guest",
+        color       = GameBoyColors.LightGreen,
+        fontSize    = 32.sp,
+        fontFamily  = PokeFontFamily(),
+        fontStyle   = FontStyle.Italic
+      )
     }
 
-    else
+    if (state.isLoginError)
     {
-      // - - - INPUT_BOXES
-      Column ()
-      {
-        VIEW_MODEL.onAction(SplashActions.ChangeName(TextInp(PLACEHOLDER = "GamerTag")))
-        VIEW_MODEL.onAction(SplashActions.ChangePass(TextInp(PLACEHOLDER = "Password")))
-      }
-
-      // - - - BUTTONS
-      Column ()
-      {
-        CustomButton(
-          CONTENT   = {text("Login")},
-          MODIFIER  = Modifier.width(256.dp))
-        CustomButton(
-          CONTENT   = {text("Register")},
-          MODIFIER  = Modifier.width(256.dp))
-      }
+      Text(
+        modifier    = Modifier.padding(16.dp),
+        text        = "Failure, you are",
+        color       = Color.Red,
+        fontSize    = 32.sp,
+        fontStyle   = FontStyle.Italic,
+        fontFamily  = PokeFontFamily(),
+      )
     }
-
-    // - - - GUEST BUTTON
-    val navController = getNavController();
-    Text(
-      modifier    = Modifier
-                    .padding(16.dp)
-                    .clickable(onClick = { navController.navigate(Screens.MainScreen); }),
-      text        = "Guest",
-      color       = GameBoyColors.LightGreen,
-      fontSize    = 32.sp,
-      fontFamily  = PokeFontFamily(),
-      fontStyle   = FontStyle.Italic
-    )
   }
 }
 
