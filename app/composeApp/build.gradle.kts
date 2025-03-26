@@ -10,7 +10,7 @@ plugins {
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.jetbrains.kotlin.serialization)
     alias(libs.plugins.ksp)
-    alias(libs.plugins.room)
+    //alias(libs.plugins.room)
 }
 
 kotlin {
@@ -21,7 +21,7 @@ kotlin {
         }
     }
 
-    room { schemaDirectory("$projectDir/schemas") }
+    //room { schemaDirectory("$projectDir/schemas") }
 
 
     @OptIn(ExperimentalWasmDsl::class)
@@ -107,15 +107,16 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-/*    externalNativeBuild {
+    externalNativeBuild {
         cmake {
             path = file("src/native/CMakeLists.txt")
             version = "3.22.1"
         }
-    }*/
+    }
 }
 
 dependencies {
     implementation(libs.androidx.material3.android)
-    debugImplementation(compose.uiTooling)
+  implementation(libs.androidx.ui.android)
+  debugImplementation(compose.uiTooling)
 }

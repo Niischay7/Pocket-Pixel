@@ -10,5 +10,6 @@ data class SplashState(
   val isValidPassword : Boolean                   = false,
   val isLoggingIn     : Boolean                   = false,
   val isLoggedIn      : Boolean                   = false,
+  val isLoginError    : Boolean                   = false,
   val networkCalls    : SplashScreenNetworkCalls  = getSplashNetworkCalls()
 )

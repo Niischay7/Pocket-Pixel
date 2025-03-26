@@ -6,6 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
+import org.just_somebody.pocket_pixel.core.networking.createHttpClient
 import org.just_somebody.pocket_pixel.core.onError
 import org.just_somebody.pocket_pixel.core.onSuccess
 import org.just_somebody.pocket_pixel.depInj.getSplashNetworkCalls
@@ -31,6 +32,9 @@ class SplashViewModel : ViewModel()
       SplashActions.Login         ->
         login()
 
+      SplashActions.Register      ->
+        register()
+
       SplashActions.AutoLogin     ->
         autoLogin()
     }
@@ -43,7 +47,9 @@ class SplashViewModel : ViewModel()
       state = state.copy(
         isLoggedIn  = false,
         gamer       = getGamerSessionStorage().getGamer() ?: state.gamer);
+      println(state.gamer)
       login()
+      state = state.copy(isLoginError = false)
     }
   }
 
@@ -57,15 +63,50 @@ class SplashViewModel : ViewModel()
         {
           getGamerSessionStorage().saveGamer(state.gamer)
           println("Wow, we did it");
-          state = state.copy(isLoggedIn = true)
+          state = state.copy(
+            isLoggedIn    = true,
+            isLoggingIn   = false,
+            isLoginError  = false
+          )
         }
       result.onError ()
         {
           getGamerSessionStorage().clearGamer()
           println("we failed it");
-          state = state.copy(isLoggedIn = false)
+          state = state.copy(
+            isLoggedIn    = false,
+            isLoggingIn   = false,
+            isLoginError  = true)
         }
-      state = state.copy(isLoggingIn = false);
+    }
+  }
+
+  private fun register()
+  {
+    viewModelScope.launch ()
+    {
+      state       = state.copy(isLoggingIn = true);
+      val result  = getSplashNetworkCalls().registerGamer(state.gamer)
+      result.onSuccess ()
+      {
+        getGamerSessionStorage().saveGamer(state.gamer)
+        println("Wow, we did it");
+        state = state.copy(
+          isLoggedIn    = true,
+          isLoggingIn   = false,
+          isLoginError  = false
+        )
+        login()
+      }
+      result.onError ()
+      {
+        getGamerSessionStorage().clearGamer()
+        println("we failed it");
+        state = state.copy(
+          isLoggedIn    = false,
+          isLoggingIn   = false,
+          isLoginError  = true)
+      }
     }
   }
 }
