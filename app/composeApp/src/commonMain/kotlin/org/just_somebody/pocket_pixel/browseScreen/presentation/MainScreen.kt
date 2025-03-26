@@ -12,6 +12,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import org.just_somebody.pocket_pixel.EmulatorScreen
 import org.just_somebody.pocket_pixel.browseScreen.data.ScreensToInt
 import org.just_somebody.pocket_pixel.browseScreen.data.intToScreen
 import org.just_somebody.pocket_pixel.core.Screens
@@ -86,7 +87,7 @@ fun MainScreen(
           )
           {
             composable<Screens.MePage>            {         temp();         }
-            composable<Screens.ExplorePage>       {     SplashScreen();     }
+            composable<Screens.ExplorePage>       {     EmulatorScreen()    }
             composable<Screens.FavoritesPage>     {         temp();         }
             composable<Screens.SearchPage>        {         temp();         }
             composable<Screens.DownloadsPage>     {         temp();         }

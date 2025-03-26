@@ -107,12 +107,12 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-/*    externalNativeBuild {
+    externalNativeBuild {
         cmake {
             path = file("src/native/CMakeLists.txt")
             version = "3.22.1"
         }
-    }*/
+    }
 }
 
 dependencies {
